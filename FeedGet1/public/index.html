@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Self-hosted feedback widget for Supabase with full customization">
+  <title>Supafeedback Widget Documentation</title>
+  <link rel="stylesheet" href="../widget/widget.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --text: #111827;
+      --background: #f9fafb;
+      --border: #e5e7eb;
+      --code-bg: #1e293b;
+      --code-text: #f8fafc;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #6366f1;
+        --text: #f3f4f6;
+        --background: #111827;
+        --border: #374151;
+        --code-bg: #0f172a;
+      }
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.3rem;
+    }
+    
+    p, ul, ol {
+      margin: 1rem 0;
+    }
+    
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+    
+    code {
+      font-family: monospace;
+      font-size: 0.95rem;
+      background: rgba(0,0,0,0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.3rem;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    
+    th {
+      background: rgba(79, 70, 229, 0.1);
+    }
+    
+    ul li, ol li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .note {
+      background: rgba(239, 246, 255, 0.3);
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+    }
+    
+    .warning {
+      background: rgba(254, 226, 226, 0.3);
+      border-left: 4px solid #ef4444;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+    }
+    
+    .demo-box {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    
+    .demo-box h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    
+    .cta-box {
+      background: rgba(79, 70, 229, 0.1);
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      table {
+        font-size: 0.9rem;
+      }
+      
+      th, td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Supafeedback Widget</h1>
+    <p>A privacy-focused, self-hosted feedback widget that sends responses directly to your Supabase database. Fully customizable and WCAG 2.1 compliant.</p>
+
+    <div class="note">
+      <strong>Latest version:</strong> v1.0.0 | <strong>License:</strong> MIT
+    </div>
+
+    <h2>📦 Installation</h2>
+    <p>Add these files to your project:</p>
+    <pre><code>public/
+  ├── widgets/
+  │   ├── feedback.js
+  │   └── feedback.css</code></pre>
+    
+    <p>Include in your HTML:</p>
+    <pre><code>&lt;link rel="stylesheet" href="/widgets/feedback.css"&gt;
+&lt;script src="/widgets/feedback.js"
+  data-supabase-url="https://YOUR_PROJECT.supabase.co"
+  data-supabase-key="YOUR_ANON_KEY"
+&gt;&lt;/script&gt;</code></pre>
+
+    <h2>⚙️ Configuration</h2>
+    <table>
+      <thead>
+        <tr><th>Attribute</th><th>Required</th><th>Default</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>data-supabase-url</code></td><td>✔️</td><td>—</td><td>Supabase project URL</td></tr>
+        <tr><td><code>data-supabase-key</code></td><td>✔️</td><td>—</td><td>Anon public key</td></tr>
+        <tr><td><code>data-title</code></td><td>❌</td><td><code>Leave Feedback</code></td><td>Modal header text</td></tr>
+        <tr><td><code>data-theme</code></td><td>❌</td><td><code>light</code></td><td><code>light</code> or <code>dark</code></td></tr>
+        <tr><td><code>data-position</code></td><td>❌</td><td><code>bottom-right</code></td><td>Corner positioning</td></tr>
+        <tr><td><code>data-storage</code></td><td>❌</td><td><code>sessionStorage</code></td><td>Draft storage method</td></tr>
+        <tr><td><code>data-questions</code></td><td>❌</td><td><code>[]</code></td><td>JSON array of custom questions</td></tr>
+      </tbody>
+    </table>
+
+    <h2>🔒 Security Best Practices</h2>
+    <div class="warning">
+      <strong>Critical:</strong> Always enable Row Level Security (RLS) before deploying to production!
+    </div>
+    
+    <p>Required Supabase policies:</p>
+    <pre><code>-- Enable RLS on feedback table
+ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;
+
+-- Minimal insert policy
+CREATE POLICY "Allow anonymous feedback inserts" 
+ON public.feedback FOR INSERT 
+TO anon WITH CHECK (true);
+
+-- Verify policies
+SELECT * FROM pg_policies WHERE tablename = 'feedback';</code></pre>
+
+    <h2>📋 Database Schema</h2>
+    <pre><code>CREATE TABLE public.feedback (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  feedback TEXT NOT NULL,
+  email TEXT,
+  url TEXT,
+  user_agent TEXT,
+  custom_fields JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);</code></pre>
+
+    <h2>❓ Custom Questions</h2>
+    <p>Example configuration with custom fields:</p>
+    <pre><code>data-questions='[
+  {
+    "type": "select",
+    "name": "rating",
+    "label": "How would you rate us?",
+    "options": ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"],
+    "required": true
+  },
+  {
+    "type": "text",
+    "name": "improvement",
+    "label": "What could we improve?",
+    "placeholder": "Your suggestions..."
+  }
+]'</code></pre>
+
+    <h2>⚠️ Troubleshooting</h2>
+    <table>
+      <tr><th>Error</th><th>Solution</th></tr>
+      <tr>
+        <td><code>Missing supabase config</code></td>
+        <td>Verify both URL and key attributes exist</td>
+      </tr>
+      <tr>
+        <td><code>RLS not enabled</code></td>
+        <td>Enable RLS and create insert policy</td>
+      </tr>
+      <tr>
+        <td><code>Failed to send feedback</code></td>
+        <td>Check browser console and Supabase logs</td>
+      </tr>
+    </table>
+
+    <h2>♿ Accessibility (WCAG 2.1)</h2>
+    <ul>
+      <li>✅ Keyboard navigable (Tab/Shift+Tab/Esc)</li>
+      <li>✅ Screen reader optimized (ARIA attributes)</li>
+      <li>✅ Color contrast ≥ 4.5:1</li>
+      <li>✅ Form validation with <code>aria-live</code></li>
+    </ul>
+
+    <h2>🔄 Version Compatibility</h2>
+    <table>
+      <tr><th>Widget Version</th><th>Supabase</th><th>Browsers</th></tr>
+      <tr><td>v1.0+</td><td>PostgreSQL 14+</td><td>Chrome, Firefox, Safari, Edge (latest)</td></tr>
+    </table>
+
+    <div class="demo-box">
+      <h3>Configuration Example</h3>
+      <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/supafeedback@1.0.0/dist/widget.min.js"
+  data-supabase-url="https://demo.supabase.co"
+  data-supabase-key="anon-key"
+  data-theme="dark"
+  data-questions='[{"type":"select","name":"rating","options":["👍","👎"]}]'
+&gt;&lt;/script&gt;</code></pre>
+    </div>
+
+    <div class="cta-box">
+      <h3>Ready to implement?</h3>
+      <p>
+        <a href="#" style="font-weight:600">Download Starter Kit</a> | 
+        <a href="#" style="font-weight:600">Report an Issue</a> | 
+        <a href="#" style="font-weight:600">View on GitHub</a>
+      </p>
+    </div>
+  </div>
+  <script src="../widget/widget.js"
+  data-supabase-url="https://demo.supabase.co"
+  data-supabase-key="anon-key"
+  data-theme="dark"
+></script>
+</body>
+</html>
