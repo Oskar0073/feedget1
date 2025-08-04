@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Self-hosted feedback widget for Supabase with full customization">
-  <title>Supafeedback Widget Documentation</title>
+  <title>Feedget1 Widget Documentation</title>
   <link rel="stylesheet" href="../widget/widget.css">
   <style>
     :root {
@@ -157,7 +157,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Supafeedback Widget</h1>
+    <h1>Feedget1 Widget</h1>
     <p>A privacy-focused, self-hosted feedback widget that sends responses directly to your Supabase database. Fully customizable and WCAG 2.1 compliant.</p>
 
     <div class="note">
@@ -168,12 +168,12 @@
     <p>Add these files to your project:</p>
     <pre><code>public/
   ├── widgets/
-  │   ├── feedback.js
-  │   └── feedback.css</code></pre>
+  │   ├── widget.js
+  │   └── widget.css</code></pre>
     
     <p>Include in your HTML:</p>
-    <pre><code>&lt;link rel="stylesheet" href="/widgets/feedback.css"&gt;
-&lt;script src="/widgets/feedback.js"
+    <pre><code>&lt;link rel="stylesheet" href="../widget/widget.css"&gt;
+&lt;script src="../widget/widget.js"
   data-supabase-url="https://YOUR_PROJECT.supabase.co"
   data-supabase-key="YOUR_ANON_KEY"
 &gt;&lt;/script&gt;</code></pre>
@@ -273,7 +273,7 @@ SELECT * FROM pg_policies WHERE tablename = 'feedback';</code></pre>
 
     <div class="demo-box">
       <h3>Configuration Example</h3>
-      <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/supafeedback@1.0.0/dist/widget.min.js"
+      <pre><code>&lt;script src="../widget/widget.js"
   data-supabase-url="https://demo.supabase.co"
   data-supabase-key="anon-key"
   data-theme="dark"
@@ -296,4 +296,5 @@ SELECT * FROM pg_policies WHERE tablename = 'feedback';</code></pre>
   data-theme="dark"
 ></script>
 </body>
+
 </html>
