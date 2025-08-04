@@ -91,6 +91,20 @@ html
   data-theme="light"
 ></script>
 ```
+### Important Notes:
+
+*    No NPM package - The widget is designed for direct JavaScript inclusion
+
+*    No build step required - Works with plain HTML/JS
+
+*    Self-hosted files - You need to manually place the JS/CSS files in your project
+
+*    Configuration options:
+
+        Must provide: data-supabase-url and data-supabase-key
+
+        Optional: data-title, data-theme, data-position etc.
+
 ---
 
 ## 6. Configuration Reference
