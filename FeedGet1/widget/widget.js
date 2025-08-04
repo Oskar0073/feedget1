@@ -7,9 +7,8 @@
   const supabaseKey = scriptTag.dataset.supabaseKey;
   const theme = scriptTag.dataset.theme || 'light';
   const position = scriptTag.dataset.position || 'bottom-right';
-  const storage = scriptTag.dataset.storage || 'sessionStorage'; // localStorage lub sessionStorage
+  const storage = scriptTag.dataset.storage || 'sessionStorage'; 
   
-  // Parsowanie niestandardowych pytań
   const customQuestions = scriptTag.dataset.questions 
     ? JSON.parse(scriptTag.dataset.questions) 
     : [];
@@ -21,8 +20,7 @@
 
   const widget = document.createElement('div');
   widget.className = `feedback-widget ${theme} ${position}`;
-  
-  // Generowanie HTML dla niestandardowych pytań
+
   let questionsHTML = '';
   customQuestions.forEach((q, index) => {
     questionsHTML += `
@@ -76,7 +74,6 @@
   `;
   document.body.appendChild(widget);
 
-  // Elementy DOM
   const openBtn = widget.querySelector('.feedback-button');
   const modal = widget.querySelector('.feedback-modal');
   const overlay = widget.querySelector('.modal-overlay');
@@ -89,7 +86,6 @@
   const firstFocusable = textarea;
   let lastFocusable = submitBtn;
 
-  // Obsługa focus trap
   function handleFocusTrap(e) {
     if (e.key !== 'Tab') return;
 
@@ -106,7 +102,6 @@
     }
   }
 
-  // Funkcje zarządzania modalem
   function openModal() {
     document.body.style.overflow = 'hidden';
     modal.classList.add('open');
@@ -135,19 +130,16 @@
     modal.removeEventListener('keydown', handleFocusTrap);
   }
 
-  // Obsługa przycisków
   openBtn.addEventListener('click', openModal);
   closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
 
-  // Zamknięcie na ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('open')) {
       closeModal();
     }
   });
 
-  // Komunikaty
   function showMessage(msg, isError = false) {
     messageBox.textContent = msg;
     messageBox.className = `feedback-message ${isError ? 'error' : 'success'}`;
@@ -162,7 +154,6 @@
     }, 5000);
   }
 
-  // Zarządzanie draftami
   function saveDraft() {
     const draft = {
       feedback: textarea.value,
@@ -193,18 +184,15 @@
     window[storage].removeItem('feedbackDraft');
   }
 
-  // Nasłuchiwanie zmian
   textarea.addEventListener('input', saveDraft);
   customQuestions.forEach((q, index) => {
     const element = widget.querySelector(`#question-${index}`);
     element.addEventListener('input', saveDraft);
   });
-
-  // Walidacja formularza
+  
   function validateForm() {
     let isValid = true;
-    
-    // Walidacja głównego pola
+
     if (!textarea.value.trim()) {
       textarea.setCustomValidity('Please enter your feedback');
       isValid = false;
@@ -212,7 +200,6 @@
       textarea.setCustomValidity('');
     }
     
-    // Walidacja niestandardowych pól
     customQuestions.forEach((q, index) => {
       const element = widget.querySelector(`#question-${index}`);
       const value = element.value.trim();
@@ -228,15 +215,13 @@
       else {
         element.setCustomValidity('');
       }
-      
-      // Pokaż błąd
+
       element.reportValidity();
     });
     
     return isValid;
   }
 
-  // Obsługa wysyłania
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -256,8 +241,7 @@
       url: window.location.href,
       user_agent: navigator.userAgent
     };
-
-    // Zbieranie odpowiedzi na niestandardowe pytania
+    
     customQuestions.forEach((q, index) => {
       const element = widget.querySelector(`#question-${index}`);
       data[q.name] = element.value;
@@ -280,7 +264,6 @@
         throw new Error(errorData.message || 'Request failed');
       }
 
-      // Reset form
       form.reset();
       removeDraft();
       
@@ -299,3 +282,4 @@
     }
   });
 })();
+
